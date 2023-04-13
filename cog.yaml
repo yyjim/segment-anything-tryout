@@ -3,21 +3,26 @@
 
 build:
   # set to true if your model requires a GPU
-  gpu: false
+  gpu: true
 
   # a list of ubuntu apt packages to install
-  # system_packages:
-    # - "libgl1-mesa-glx"
-    # - "libglib2.0-0"
+  system_packages:
+    - "python3-opencv"
 
   # python version in the form '3.8' or '3.8.12'
   python_version: "3.8"
 
   # a list of packages in the format <package-name>==<version>
-  # python_packages:
-    # - "numpy==1.19.4"
-    # - "torch==1.8.0"
-    # - "torchvision==0.9.0"
+  python_packages:
+     - numpy==1.19.4
+     - torch==1.13.0
+     - torchvision
+     - opencv-python
+     - git+https://github.com/facebookresearch/segment-anything.git
+     - pycocotools
+     - onnxruntime
+     - onnx
+     - imutils
   
   # commands run after the environment is setup
   # run:
