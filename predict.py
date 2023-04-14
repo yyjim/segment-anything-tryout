@@ -79,17 +79,15 @@ class Predictor(BasePredictor):
             h, w = mask.shape[-2:]
             mask_image = mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
             mask_image = (mask_image * 255).astype(np.uint8)
-            #mask_image = cv2.bitwise_not(mask_image)
             cv2.imwrite(filename, mask_image)
             results.append(Path(filename))
 
-        # create the output image
+        # create the output image by cropping the original image with the first mask,
         output_mask = cv2.imread("mask.0.png")
         output_mask = cv2.cvtColor(output_mask, cv2.COLOR_BGR2GRAY)
         b, g, r = cv2.split(image_bgr)
         output_image = cv2.merge([b, g, r, output_mask], 4)
-        print(output_image.shape)
         cv2.imwrite('output.png', output_image)
+
         results.append(Path('output.png'))
-        print(results)
         return results
