@@ -36,6 +36,8 @@ class Predictor(BasePredictor):
             default=None, description="Bounding box coordinates [x, y, w, h]. If None, the entire image will be used."),
         multimask_output: bool = Input(
             default=False, description="If True, the output will be a list of masks. If False, the output will be a single mask."),
+        mask_only: bool = Input(
+            default=False, description="If True, the output will only include mask.")
     ) -> List[Path]:
         """Run a single prediction on the model"""
 
@@ -82,12 +84,14 @@ class Predictor(BasePredictor):
             cv2.imwrite(filename, mask_image)
             results.append(Path(filename))
 
-        # create the output image by cropping the original image with the first mask,
-        output_mask = cv2.imread("mask.0.png")
-        output_mask = cv2.cvtColor(output_mask, cv2.COLOR_BGR2GRAY)
-        b, g, r = cv2.split(image_bgr)
-        output_image = cv2.merge([b, g, r, output_mask], 4)
-        cv2.imwrite('output.png', output_image)
+        # create maksed image if needed
+        # cropping the original image with the first mask
+        if not mask_only:
+            output_mask = cv2.imread("mask.0.png")
+            output_mask = cv2.cvtColor(output_mask, cv2.COLOR_BGR2GRAY)
+            b, g, r = cv2.split(image_bgr)
+            output_image = cv2.merge([b, g, r, output_mask], 4)
+            cv2.imwrite('output.png', output_image)
+            results.append(Path('output.png'))
 
-        results.append(Path('output.png'))
         return results
