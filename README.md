@@ -10,4 +10,8 @@
 
 ## Replicate.com Demo
 
+Predictor
 - https://replicate.com/yyjim/segment-anything-tryout
+
+Automatic
+- https://replicate.com/yyjim/segment-anything-everything
